@@ -52,6 +52,7 @@ fee.api:
   jurisdiction2: probate registry
   channel: default
   applicantType: all
+  keyword: pro1
 
 markdown.templatesDirectory: templates/markdown/
 

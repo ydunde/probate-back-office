@@ -234,24 +234,32 @@ services:
      - 8080:8080
 
   fees-api:
-    image: docker.artifactory.reform.hmcts.net/fees-register/fees-api:${FEES_API_DOCKER_VERSION:-latest}
+    image: hmcts.azurecr.io/hmcts/fees-register-api:latest
+    healthcheck:
+      retries: 40
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/fees_register
-      - SPRING_DATASOURCE_USERNAME=fees_register
-      - SPRING_DATASOURCE_PASSWORD=fees_register
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://shared-database:5432/fee
+      - SPRING_DATASOURCE_USERNAME=fee
+      - SPRING_DATASOURCE_PASSWORD=fee
       - SPRING_PROFILES_ACTIVE=embedded
       - AUTH_IDAM_CLIENT_BASEURL=http://idam-api:8080
+      - JAVA_OPTS=-Xms8m -Xmx256m -Djava.security.egd=file:/dev/./urandom -XX:MaxMetaspaceSize=128m
+      #- AUTH_IDAM_CLIENT_BASEURL=https://idam-test.dev.ccidam.reform.hmcts.net
       - ROOT_APPENDER=JSON_CONSOLE
       - ENABLE_FEE_LOADER=true
       - SPRING_LIQUIBASE_ENABLED=true
+    mem_limit: 512m
+    memswap_limit: 0
     ports:
       - 4411:8080
     links:
       - idam-api
       - shared-database
     depends_on:
-      - idam-api
-      - shared-database
+      shared-database:
+        condition: service_healthy
+      idam-api:
+        condition: service_started
 
   ccd-user-profile-api:
     image: hmcts.azurecr.io/hmcts/ccd-user-profile-api:latest

@@ -61,22 +61,23 @@ public class FeeService {
         BigDecimal nonUkCopiesFee = getCopiesFee(nonUkCopies);
 
         return FeeServiceResponse.builder()
-            .applicationFee(applicationFee)
-            .feeForUkCopies(ukCopiesFee)
-            .feeForNonUkCopies(nonUkCopiesFee)
-            .total(applicationFee.add(ukCopiesFee).add(nonUkCopiesFee))
-            .build();
+                .applicationFee(applicationFee)
+                .feeForUkCopies(ukCopiesFee)
+                .feeForNonUkCopies(nonUkCopiesFee)
+                .total(applicationFee.add(ukCopiesFee).add(nonUkCopiesFee))
+                .build();
     }
 
     private URI buildUri(String event, String amount) {
         return UriComponentsBuilder.fromHttpUrl(feeServiceConfiguration.getUrl() + feeServiceConfiguration.getApi())
-            .queryParam("service", feeServiceConfiguration.getService())
-            .queryParam("jurisdiction1", feeServiceConfiguration.getJurisdiction1())
-            .queryParam("jurisdiction2", feeServiceConfiguration.getJurisdiction2())
-            .queryParam("channel", feeServiceConfiguration.getChannel())
-            .queryParam("applicant_type", feeServiceConfiguration.getApplicantType())
-            .queryParam("event", event)
-            .queryParam("amount_or_volume", amount)
-            .build().encode().toUri();
+                .queryParam("service", feeServiceConfiguration.getService())
+                .queryParam("jurisdiction1", feeServiceConfiguration.getJurisdiction1())
+                .queryParam("jurisdiction2", feeServiceConfiguration.getJurisdiction2())
+                .queryParam("channel", feeServiceConfiguration.getChannel())
+                .queryParam("applicant_type", feeServiceConfiguration.getApplicantType())
+                .queryParam("event", event)
+                .queryParam("amount_or_volume", amount)
+                .queryParam("keyword", feeServiceConfiguration.getKeyword())
+                .build().encode().toUri();
     }
 }

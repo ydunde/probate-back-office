@@ -47,6 +47,7 @@ public class DataExtractController {
     @ApiOperation(value = "Initiate IronMountain data extract", notes = "Will find cases for yesterdays date")
     @PostMapping(path = "/iron-mountain")
     public ResponseEntity initiateIronMountainExtract() {
+
         return initiateIronMountainExtract(DATE_FORMAT.format(LocalDate.now().minusDays(1L)));
     }
 
