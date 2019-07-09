@@ -10,7 +10,11 @@ import uk.gov.hmcts.probate.model.ccd.raw.request.CallbackRequest;
 import uk.gov.hmcts.probate.model.ccd.willlodgement.request.WillLodgementCallbackRequest;
 
 import java.util.List;
+import java.util.Optional;
 
+import static uk.gov.hmcts.probate.model.DocumentType.ADMON_WILL_GRANT;
+import static uk.gov.hmcts.probate.model.DocumentType.DIGITAL_GRANT;
+import static uk.gov.hmcts.probate.model.DocumentType.INTESTACY_GRANT;
 import static uk.gov.hmcts.probate.model.DocumentType.WILL_LODGEMENT_DEPOSIT_RECEIPT;
 
 @Slf4j
@@ -64,6 +68,22 @@ public class DocumentTransformer {
             callbackRequest.getCaseDetails().getData().getDocumentsGenerated()
                     .add(new CollectionMember<>(null, document));
         }
+    }
+
+    public Optional<DocumentType> getMainGrantType(List<Document> documents) {
+        for (Document document : documents) {
+            switch (document.getDocumentType()) {
+                case DIGITAL_GRANT:
+                    return Optional.of(DIGITAL_GRANT);
+                case ADMON_WILL_GRANT:
+                    return Optional.of(ADMON_WILL_GRANT);
+                case INTESTACY_GRANT:
+                    return Optional.of(INTESTACY_GRANT);
+                default:
+            }
+        }
+
+        return Optional.empty();
     }
 
 }

@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import uk.gov.hmcts.probate.model.DocumentType;
 import uk.gov.hmcts.probate.model.ccd.raw.Document;
 import uk.gov.hmcts.probate.model.ccd.raw.request.CallbackRequest;
 import uk.gov.hmcts.probate.model.ccd.raw.request.CaseData;
@@ -15,13 +16,16 @@ import uk.gov.hmcts.probate.model.ccd.willlodgement.request.WillLodgementDetails
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
+import static uk.gov.hmcts.probate.model.DocumentType.ADMON_WILL_GRANT;
 import static uk.gov.hmcts.probate.model.DocumentType.DIGITAL_GRANT;
 import static uk.gov.hmcts.probate.model.DocumentType.DIGITAL_GRANT_DRAFT;
+import static uk.gov.hmcts.probate.model.DocumentType.INTESTACY_GRANT;
 import static uk.gov.hmcts.probate.model.DocumentType.SENT_EMAIL;
 import static uk.gov.hmcts.probate.model.DocumentType.WILL_LODGEMENT_DEPOSIT_RECEIPT;
 
@@ -104,5 +108,52 @@ public class DocumentTransformerTest {
         documentTransformer.addDocument(wlCallbackRequest, willLodgementReceipt);
 
         assertEquals(1, wlCallbackRequest.getCaseDetails().getData().getDocumentsGenerated().size());
+    }
+
+    @Test
+    public void shouldGetMainGrantTypeOfDigitalGrant() {
+        Optional<DocumentType> mainGrantDocumentType = documentTransformer.getMainGrantType(documents);
+
+        assertEquals("digitalGrant", mainGrantDocumentType.get().getTemplateName());
+    }
+
+    @Test
+    public void shouldGetMainGrantTypeOfIntestacyGrant() {
+        List<Document> documents = new ArrayList<>();
+        Document grant = Document.builder().documentType(INTESTACY_GRANT).build();
+
+        documents.add(sentEmail);
+        documents.add(willLodgementReceipt);
+        documents.add(grant);
+
+        Optional<DocumentType> mainGrantDocumentType = documentTransformer.getMainGrantType(documents);
+
+        assertEquals("intestacyGrant", mainGrantDocumentType.get().getTemplateName());
+    }
+
+    @Test
+    public void shouldGetMainGrantTypeOfAdmonWillGrant() {
+        List<Document> documents = new ArrayList<>();
+        Document grant = Document.builder().documentType(ADMON_WILL_GRANT).build();
+
+        documents.add(sentEmail);
+        documents.add(willLodgementReceipt);
+        documents.add(grant);
+
+        Optional<DocumentType> mainGrantDocumentType = documentTransformer.getMainGrantType(documents);
+
+        assertEquals("admonWillGrant", mainGrantDocumentType.get().getTemplateName());
+    }
+
+    @Test
+    public void shouldGetNoMainGrantType() {
+        List<Document> documents = new ArrayList<>();
+
+        documents.add(sentEmail);
+        documents.add(willLodgementReceipt);
+
+        Optional<DocumentType> mainGrantDocumentType = documentTransformer.getMainGrantType(documents);
+
+        assertEquals(false, mainGrantDocumentType.isPresent());
     }
 }

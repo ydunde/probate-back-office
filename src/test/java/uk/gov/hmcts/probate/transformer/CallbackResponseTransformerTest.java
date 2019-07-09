@@ -18,6 +18,7 @@ import uk.gov.hmcts.probate.model.ccd.raw.AdditionalExecutorNotApplying;
 import uk.gov.hmcts.probate.model.ccd.raw.AdoptedRelative;
 import uk.gov.hmcts.probate.model.ccd.raw.AliasName;
 import uk.gov.hmcts.probate.model.ccd.raw.AttorneyApplyingOnBehalfOf;
+import uk.gov.hmcts.probate.model.ccd.raw.BulkPrint;
 import uk.gov.hmcts.probate.model.ccd.raw.CollectionMember;
 import uk.gov.hmcts.probate.model.ccd.raw.Document;
 import uk.gov.hmcts.probate.model.ccd.raw.DocumentLink;
@@ -56,6 +57,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.probate.model.ApplicationType.SOLICITOR;
 import static uk.gov.hmcts.probate.model.DocumentType.CAVEAT_STOPPED;
@@ -369,6 +371,31 @@ public class CallbackResponseTransformerTest {
         assertLegacyInfo(callbackResponse);
 
         assertEquals(1, callbackResponse.getData().getProbateDocumentsGenerated().size());
+    }
+
+    @Test
+    public void shouldAddDigitalGrantToGeneratedDocumentsAndBulkPrintInfo() {
+        Document document = Document.builder()
+                .documentLink(documentLinkMock)
+                .documentType(DIGITAL_GRANT)
+                .build();
+
+        BulkPrint bulkPrint = BulkPrint.builder().templateName("OtherTempate").sendLetterId("existingLetter").build();
+        CollectionMember<BulkPrint> collectionMember = new CollectionMember(null, bulkPrint);
+        List<CollectionMember<BulkPrint>> collections = new ArrayList<>();
+        collections.add(collectionMember);
+
+        callbackRequestMock.getCaseDetails().getData().setBulkPrintId(collections);
+        CallbackResponse callbackResponse = underTest.addDocuments(callbackRequestMock, Arrays.asList(document), "letterId", null);
+
+        assertCommon(callbackResponse);
+        assertLegacyInfo(callbackResponse);
+
+        assertEquals(1, callbackResponse.getData().getProbateDocumentsGenerated().size());
+        assertEquals("OtherTempate", callbackResponse.getData().getBulkPrintId().get(0).getValue().getTemplateName());
+        assertEquals("existingLetter", callbackResponse.getData().getBulkPrintId().get(0).getValue().getSendLetterId());
+        assertEquals("digitalGrant", callbackResponse.getData().getBulkPrintId().get(1).getValue().getTemplateName());
+        assertEquals("letterId", callbackResponse.getData().getBulkPrintId().get(1).getValue().getSendLetterId());
     }
 
     @Test
