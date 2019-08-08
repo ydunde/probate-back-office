@@ -21,6 +21,7 @@ java:
   image: hmctspublic.azurecr.io/probate/back-office:latest
   ingressHost: ${SERVICE_FQDN}
 
+
 postgresql:
   postgresqlUsername: probate_man
   postgresqlPassword: probate_man
