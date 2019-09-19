@@ -1,1 +1,6 @@
-[]
+[
+  {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "executorsApplyingNotifications", "ListElementCode": "name", "UserRole": "caseworker-probate-issuer", "CRUD": "RU"},
+  {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "executorsApplyingNotifications", "ListElementCode": "email", "UserRole": "caseworker-probate-issuer", "CRUD": "RU"},
+  {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "executorsApplyingNotifications", "ListElementCode": "address", "UserRole": "caseworker-probate-issuer", "CRUD": "RU"},
+  {"CaseTypeID": "GrantOfRepresentation", "CaseFieldID": "executorsApplyingNotifications", "ListElementCode": "notification", "UserRole": "caseworker-probate-issuer", "CRUD": "RU"}
+]
