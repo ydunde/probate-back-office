@@ -83,12 +83,14 @@ docmosis:
 fee.api:
   url: http://localhost:4411
   api: /fees-register/fees/lookup
+  caveatsApi: /fees-register/fees
   service: probate
   jurisdiction1: family
   jurisdiction2: probate registry
   channel: default
   applicantType: all
   keyword: NewFee
+  caveatKeyword: MNO
 
 markdown.templatesDirectory: templates/markdown/
 

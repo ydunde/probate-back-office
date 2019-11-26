@@ -26,9 +26,22 @@ public class FeeService {
 
     private static final String FEE_API_EVENT_TYPE_ISSUE = "issue";
     private static final String FEE_API_EVENT_TYPE_COPIES = "copies";
+    private static final String FEE_API_EVENT_TYPE_MISC = "miscellaneous";
 
     public BigDecimal getApplicationFee(BigDecimal amountInPound) {
-        URI uri = buildUri(FEE_API_EVENT_TYPE_ISSUE, amountInPound.toString());
+        URI uri = buildUri(FEE_API_EVENT_TYPE_ISSUE, amountInPound.toString(), null);
+        appInsights.trackEvent(REQUEST_SENT, uri.toString());
+        ResponseEntity<Fee> responseEntity = restTemplate.getForEntity(uri, Fee.class);
+
+        if (responseEntity.getStatusCode().equals(HttpStatus.NO_CONTENT)) {
+            return BigDecimal.ZERO;
+        }
+
+        return responseEntity.getBody().getFeeAmount();
+    }
+
+    public BigDecimal getCaveatApplicationFee() {
+        URI uri = buildUri(FEE_API_EVENT_TYPE_MISC, null, "FEE0288");
         appInsights.trackEvent(REQUEST_SENT, uri.toString());
         ResponseEntity<Fee> responseEntity = restTemplate.getForEntity(uri, Fee.class);
 
@@ -44,7 +57,7 @@ public class FeeService {
             return BigDecimal.ZERO;
         }
 
-        URI uri = buildUri(FEE_API_EVENT_TYPE_COPIES, copies.toString());
+        URI uri = buildUri(FEE_API_EVENT_TYPE_COPIES, copies.toString(), null);
 
         ResponseEntity<Fee> responseEntity = restTemplate.getForEntity(uri, Fee.class);
 
@@ -68,18 +81,31 @@ public class FeeService {
             .build();
     }
 
-    private URI buildUri(String event, String amount) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(feeServiceConfiguration.getUrl() + feeServiceConfiguration.getApi())
+    private URI buildUri(String event, String amount, String feeCode) {
+        String code = feeCode == null ? "" : "/" + feeCode;
+        String url = feeServiceConfiguration.getUrl();
+        String api = feeServiceConfiguration.getApi();
+        if(amount == null) {
+           api = feeServiceConfiguration.getCaveatApi();
+        }
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url + api + code)
             .queryParam("service", feeServiceConfiguration.getService())
             .queryParam("jurisdiction1", feeServiceConfiguration.getJurisdiction1())
             .queryParam("jurisdiction2", feeServiceConfiguration.getJurisdiction2())
             .queryParam("channel", feeServiceConfiguration.getChannel())
             .queryParam("applicant_type", feeServiceConfiguration.getApplicantType())
-            .queryParam("event", event)
-            .queryParam("amount_or_volume", amount);
+            .queryParam("event", event);
+
+        if (amount != null) {
+            builder.queryParam("amount_or_volume", amount);
+        }
 
         if (FEE_API_EVENT_TYPE_COPIES.equals(event)) {
             builder.queryParam("keyword", feeServiceConfiguration.getKeyword());
+        }
+
+        if (FEE_API_EVENT_TYPE_MISC.equals(event)) {
+            builder.queryParam("keyword", feeServiceConfiguration.getCaveatKeyword());
         }
 
         return builder.build().encode().toUri();

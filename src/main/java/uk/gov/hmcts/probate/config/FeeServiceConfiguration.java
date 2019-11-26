@@ -11,10 +11,12 @@ public class FeeServiceConfiguration {
 
     private String url;
     private String api;
+    private String caveatApi;
     private String service;
     private String jurisdiction1;
     private String jurisdiction2;
     private String channel;
     private String applicantType;
     private String keyword;
+    private String caveatKeyword;
 }
