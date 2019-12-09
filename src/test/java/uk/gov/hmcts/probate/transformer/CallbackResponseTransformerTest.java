@@ -1941,7 +1941,7 @@ public class CallbackResponseTransformerTest {
         assertEquals("2017-12-31", callbackResponse.getData().getDeceasedDateOfDeath());
         assertEquals(NUM_CODICILS, callbackResponse.getData().getWillNumberOfCodicils());
 
-        assertEquals(IHT_FORM_ID, callbackResponse.getData().getIhtFormId());
+//        assertEquals(IHT_FORM_ID, callbackResponse.getData().getIhtFormId());
         Assert.assertThat(new BigDecimal("10000"), comparesEqualTo(callbackResponse.getData().getIhtGrossValue()));
         Assert.assertThat(new BigDecimal("9000"), comparesEqualTo(callbackResponse.getData().getIhtNetValue()));
 
@@ -1973,7 +1973,7 @@ public class CallbackResponseTransformerTest {
         assertEquals(ADMIN_CLAUSE_LIMITATION, callbackResponse.getData().getBoAdminClauseLimitation());
         assertEquals(LIMITATION_TEXT, callbackResponse.getData().getBoLimitationText());
 
-        assertEquals(IHT_REFERENCE, callbackResponse.getData().getIhtReferenceNumber());
+//        assertEquals(IHT_REFERENCE, callbackResponse.getData().getIhtReferenceNumber());
         assertEquals(IHT_ONLINE, callbackResponse.getData().getIhtFormCompletedOnline());
 
         assertEquals(PAYMENTS_LIST, callbackResponse.getData().getPayments());

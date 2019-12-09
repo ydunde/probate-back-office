@@ -664,11 +664,17 @@ public class CallbackResponseTransformer {
         if (caseData.getIhtFormCompletedOnline() != null) {
             if (caseData.getIhtFormCompletedOnline().equalsIgnoreCase(ANSWER_YES)) {
                 builder
+                        .ihtFormId(null)
                         .ihtReferenceNumber(caseData.getIhtReferenceNumber());
             } else {
                 builder
-                        .ihtReferenceNumber(null);
+                        .ihtReferenceNumber(null)
+                        .ihtFormId(caseData.getIhtFormId());
             }
+        } else {
+            builder
+                    .ihtReferenceNumber(null)
+                    .ihtFormId(null);
         }
 
         if (caseData.getApplicationType() != ApplicationType.PERSONAL) {
@@ -766,8 +772,23 @@ public class CallbackResponseTransformer {
 
     private void updateCaseBuilderForTransformCase(CaseData caseData, ResponseCaseDataBuilder builder) {
         builder
-                .ihtReferenceNumber(caseData.getIhtReferenceNumber())
                 .solsDeceasedAliasNamesList(caseData.getSolsDeceasedAliasNamesList());
+
+        if (caseData.getIhtFormCompletedOnline() != null) {
+            if (caseData.getIhtFormCompletedOnline().equalsIgnoreCase(ANSWER_YES)) {
+                builder
+                        .ihtFormId(null)
+                        .ihtReferenceNumber(caseData.getIhtReferenceNumber());
+            } else {
+                builder
+                        .ihtReferenceNumber(null)
+                        .ihtFormId(caseData.getIhtFormId());
+            }
+        } else {
+            builder
+                    .ihtReferenceNumber(null)
+                    .ihtFormId(null);
+        }
 
         if (caseData.getApplicationType() != ApplicationType.PERSONAL) {
             builder
