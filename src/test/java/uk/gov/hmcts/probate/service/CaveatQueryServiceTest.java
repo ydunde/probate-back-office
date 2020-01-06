@@ -20,7 +20,7 @@ import uk.gov.hmcts.probate.model.ccd.caveat.request.CaveatData;
 import uk.gov.hmcts.probate.model.ccd.caveat.request.ReturnedCaveatDetails;
 import uk.gov.hmcts.probate.model.ccd.caveat.request.ReturnedCaveats;
 import uk.gov.hmcts.probate.service.evidencemanagement.header.HttpHeadersFactory;
-import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
+import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class CaveatQueryServiceTest {
     private IdamAuthenticateUserService idamAuthenticateUserService;
 
     @Mock
-    private ServiceAuthTokenGenerator serviceAuthTokenGenerator;
+    private AuthTokenGenerator serviceAuthTokenGenerator;
 
     @Mock
     private BusinessValidationMessageRetriever businessValidationMessageRetrieverMock;

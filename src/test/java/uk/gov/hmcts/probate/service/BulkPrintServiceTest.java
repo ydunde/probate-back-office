@@ -24,7 +24,7 @@ import uk.gov.hmcts.probate.model.ccd.raw.response.CallbackResponse;
 import uk.gov.hmcts.probate.model.ccd.raw.response.ResponseCaseData;
 import uk.gov.hmcts.probate.service.client.DocumentStoreClient;
 import uk.gov.hmcts.probate.transformer.DocumentTransformer;
-import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
+import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.sendletter.api.LetterWithPdfsRequest;
 import uk.gov.hmcts.reform.sendletter.api.SendLetterApi;
 import uk.gov.hmcts.reform.sendletter.api.SendLetterResponse;
@@ -60,7 +60,7 @@ public class BulkPrintServiceTest {
     private EventValidationService eventValidationService;
 
     @Mock
-    private ServiceAuthTokenGenerator authTokenGeneratorMock;
+    private AuthTokenGenerator authTokenGeneratorMock;
 
     @Mock
     private DocumentStoreClient documentStoreClientMock;

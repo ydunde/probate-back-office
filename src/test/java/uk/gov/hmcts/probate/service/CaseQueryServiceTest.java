@@ -17,7 +17,7 @@ import uk.gov.hmcts.probate.model.ccd.raw.request.CaseData;
 import uk.gov.hmcts.probate.model.ccd.raw.request.ReturnedCaseDetails;
 import uk.gov.hmcts.probate.model.ccd.raw.request.ReturnedCases;
 import uk.gov.hmcts.probate.service.evidencemanagement.header.HttpHeadersFactory;
-import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
+import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class CaseQueryServiceTest {
     private IdamAuthenticateUserService idamAuthenticateUserService;
 
     @Mock
-    private ServiceAuthTokenGenerator serviceAuthTokenGenerator;
+    private AuthTokenGenerator serviceAuthTokenGenerator;
 
     @InjectMocks
     private CaseQueryService caseQueryService;

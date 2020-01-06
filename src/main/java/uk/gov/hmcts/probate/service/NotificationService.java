@@ -30,7 +30,7 @@ import uk.gov.hmcts.probate.service.notification.SentEmailPersonalisationService
 import uk.gov.hmcts.probate.service.notification.TemplateService;
 import uk.gov.hmcts.probate.service.template.pdf.PDFManagementService;
 import uk.gov.hmcts.probate.validator.EmailAddressNotificationValidationRule;
-import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
+import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.service.notify.NotificationClient;
 import uk.gov.service.notify.NotificationClientException;
 import uk.gov.service.notify.SendEmailResponse;
@@ -66,7 +66,7 @@ public class NotificationService {
     private final CaveatPersonalisationService caveatPersonalisationService;
     private final SentEmailPersonalisationService sentEmailPersonalisationService;
     private final TemplateService templateService;
-    private final ServiceAuthTokenGenerator tokenGenerator;
+    private final AuthTokenGenerator tokenGenerator;
     private final DocumentStoreClient documentStoreClient;
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM Y HH:mm");
