@@ -821,7 +821,6 @@ public class CallbackResponseTransformer {
                 .additionalExecutorsApplying(mapApplyingAdditionalExecutors(caseData))
                 .additionalExecutorsNotApplying(caseData.getAdditionalExecutorsNotApplying())
                 .solsAdditionalExecutorList(caseData.getSolsAdditionalExecutorList())
-                .primaryApplicantAlias(caseData.getPrimaryApplicantAlias())
                 .solsExecutorAliasNames(caseData.getSolsExecutorAliasNames());
     }
 
