@@ -735,7 +735,8 @@ public class CallbackResponseTransformer {
         builder
                 .primaryApplicantAlias(caseData.getPrimaryApplicantAlias())
                 .additionalExecutorsNotApplying(caseData.getAdditionalExecutorsNotApplying())
-                .solsAdditionalExecutorList(caseData.getSolsAdditionalExecutorList());
+                .solsAdditionalExecutorList(caseData.getSolsAdditionalExecutorList())
+                .numberOfExecutors(caseData.getNumberOfExecutors());
 
         if (caseData.getIhtFormCompletedOnline() != null) {
             if (caseData.getIhtFormCompletedOnline().equalsIgnoreCase(ANSWER_YES)) {
@@ -943,7 +944,8 @@ public class CallbackResponseTransformer {
         builder
                 .ihtReferenceNumber(caseData.getIhtReferenceNumber())
                 .primaryApplicantAlias(caseData.getPrimaryApplicantAlias())
-                .solsDeceasedAliasNamesList(caseData.getSolsDeceasedAliasNamesList());
+                .solsDeceasedAliasNamesList(caseData.getSolsDeceasedAliasNamesList())
+                .numberOfExecutors(caseData.getNumberOfExecutors());
 
         if (caseData.getApplicationType() != PERSONAL) {
             builder

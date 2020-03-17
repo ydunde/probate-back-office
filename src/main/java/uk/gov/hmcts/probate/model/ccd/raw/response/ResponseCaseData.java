@@ -39,6 +39,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseCaseData {
 
+    private final String numberOfExecutors;
     private final String state;
     private final ApplicationType applicationType;
     private final String registryLocation;

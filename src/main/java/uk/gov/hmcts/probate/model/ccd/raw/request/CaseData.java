@@ -62,6 +62,10 @@ import static uk.gov.hmcts.probate.model.Constants.YES;
 @Data
 public class CaseData {
 
+    @NotBlank(groups = {ApplicationCreatedGroup.class},
+            message = "{numberOfExecutorsIsNull}")
+    private final String numberOfExecutors;
+
     // EVENT = solicitorCreateApplication
     @NotBlank(groups = {ApplicationCreatedGroup.class},
             message = "{solsSolicitorFirmNameIsNull}")
