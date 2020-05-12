@@ -5,6 +5,7 @@ import java.util.List;
 
 public enum ParagraphField {
 
+    
     FREE_TEXT("FreeText", "Free Text", "freeText"),
     CASEWORKER("Caseworker", "Caseworker", "caseworkerName"),
     AFFIDAVIT("ForDomAffidavit", "Foreign domicile affidavit of law", null),
